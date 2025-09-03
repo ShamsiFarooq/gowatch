@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gowatch/view/home_page.dart';
+import 'package:gowatch/features/movie/views/view/splash_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const HomePage(),
+      home: const SplashPage(),
     );
   }
 }
