@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:gowatch/features/movie/views/view/splash_page.dart';
+import 'package:gowatch/features/movie/provider/detailes_provider.dart';
+import 'package:gowatch/features/movie/provider/search_provider.dart';
+import 'package:gowatch/features/movie/service/omdb_api.dart';
+import 'package:provider/provider.dart';
+import 'app/router.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final api = OmdbApi.create();
+  runApp(MovieApp(api: api));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MovieApp extends StatelessWidget {
+  final OmdbApi api;
+  const MovieApp({super.key, required this.api});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'GoWatch',
-      theme: ThemeData(
-        
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SearchProvider(api)),
+        ChangeNotifierProvider(create: (_) => DetailProvider(api)),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'MovieTime',
+        routerConfig: appRouter,
       ),
-      home: const SplashPage(),
     );
   }
 }
